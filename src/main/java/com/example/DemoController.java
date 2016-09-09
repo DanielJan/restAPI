@@ -7,6 +7,8 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import javax.annotation.PostConstruct;
 import javax.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,15 +26,34 @@ public class DemoController {
     
     private List<Person> persons = new ArrayList<Person>();
     
+    @PostConstruct
+    private void setup(){
+       Person Adam = new Person("Adam",14,1);
+       Person Karol = new Person("Karol",30,2);
+        
+        persons.add(Adam);
+        persons.add(Karol);
+        
+    }
   
-    @RequestMapping(value = "/dupa/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/persons/{name}", method = RequestMethod.GET)
     public String helloWorld(@PathVariable String name){
         return "Hello:"+ name;        
         
     }
-    @RequestMapping(value = "/asd", method = RequestMethod.POST)
+    @RequestMapping(value = "/persons", method = RequestMethod.POST)
     public String helloPost(@RequestBody Person person){
         return "Czesc " + person.getName() + " masz " + person.getAge();
             }
+    @RequestMapping(value = "/persons", method = RequestMethod.GET)
+    public List<Person> showPersons(){
+        return persons;
+      }
     
+    
+    
+    
+    
+     
+   
 }

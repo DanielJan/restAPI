@@ -10,7 +10,15 @@ package com.example;
  * @author damian.wrobel
  */
 public class Person {
-    private String name;
+
+    public Person(String name, int age, int id) {
+        this.name = name;
+        this.age = age;
+        this.id = id;
+    }
+
+      
+   private String name;
     private int age;
     private int id;
 
@@ -18,7 +26,7 @@ public class Person {
         return id;
     }
 
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
     }
 
