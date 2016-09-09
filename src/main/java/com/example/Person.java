@@ -11,6 +11,11 @@ package com.example;
  */
 public class Person {
 
+    public Person() {
+    }
+    
+
+
     public Person(String name, int age, int id) {
         this.name = name;
         this.age = age;
@@ -18,7 +23,8 @@ public class Person {
     }
 
       
-   private String name;
+   
+    private String name;
     private int age;
     private int id;
 
@@ -44,6 +50,11 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" + "name=" + name + ", age=" + age + ", id=" + id + '}';
     }
     
     

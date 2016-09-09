@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author damian.wrobel
  */
 @RestController
-public class DemoController {
+public class DemoController{
     
     private List<Person> persons = new ArrayList<Person>();
     
@@ -33,23 +33,25 @@ public class DemoController {
         
         persons.add(Adam);
         persons.add(Karol);
-        
-    }
+     }
   
     @RequestMapping(value = "/persons/{name}", method = RequestMethod.GET)
     public String helloWorld(@PathVariable String name){
         return "Hello:"+ name;        
         
     }
-    @RequestMapping(value = "/persons", method = RequestMethod.POST)
-    public String helloPost(@RequestBody Person person){
-        return "Czesc " + person.getName() + " masz " + person.getAge();
-            }
+    
     @RequestMapping(value = "/persons", method = RequestMethod.GET)
     public List<Person> showPersons(){
         return persons;
       }
     
+    @RequestMapping(value = "/persons", method = RequestMethod.POST)
+    public String addPerson(@RequestBody Person person){
+        persons.add(person);
+        return "Dodano osobę " +  person.toString() + "do listy";
+        
+    }
     
     
     
