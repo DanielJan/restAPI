@@ -45,15 +45,25 @@ public class DemoController {
         throw new RuntimeException("nie ma takiej osoby");
     }
 
-    @RequestMapping(value = "/persons", method = RequestMethod.GET)
-    public List<Person> showPersons() {
-        return persons;
+    @RequestMapping(value = "/persons/{id}", method = RequestMethod.DELETE)
+    public void deletePerson(@PathVariable int id) {
+        for (int index = 0; index < persons.size(); index++) {
+            Person person = persons.get(index);
+            if (person.getId() == id) {
+                persons.remove(index);
+            }
+        }
     }
 
     @RequestMapping(value = "/persons", method = RequestMethod.POST)
     public String addPerson(@RequestBody Person person) {
         persons.add(person);
-        return "Dodano osobę " + person.toString() + "do listy";
+        return "Dodano osobę " + person.toString() + " do listy";
+    }
+
+    @RequestMapping(value = "/persons", method = RequestMethod.GET)
+    public List<Person> showPersons() {
+        return persons;
     }
 
 }
