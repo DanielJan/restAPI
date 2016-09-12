@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoController {
 
-    private List<Person> persons = new ArrayList<Person>();
+    private final List<Person> persons = new ArrayList<>();
 
     @PostConstruct
     private void setup() {
@@ -47,12 +47,19 @@ public class DemoController {
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.DELETE)
     public void deletePerson(@PathVariable int id) {
-        for (int index = 0; index < persons.size(); index++) {
-            Person person = persons.get(index);
-            if (person.getId() == id) {
-                persons.remove(index);
-            }
-        }
+        Person person = new Person(id);
+        persons.remove(person);
+
+        //        for (int index = 0; index < persons.size(); index++) {
+        //            Person person = persons.get(index);
+        //
+        //            //   if (person.getId() == id) {
+        //            //        persons.remove(index);
+        //            //    }
+        //            if (person.getId() == id) {
+        //                boolean removed = persons.remove(person);
+        //            }
+        //        }
     }
 
     @RequestMapping(value = "/persons", method = RequestMethod.POST)
@@ -66,4 +73,11 @@ public class DemoController {
         return persons;
     }
 
+    @RequestMapping(value = "/persons/{id}", method = RequestMethod.PUT)
+    public void modifyPerson(@RequestBody Person person) {
+        
+        System.out.println(person);
+
+
+    }
 }
