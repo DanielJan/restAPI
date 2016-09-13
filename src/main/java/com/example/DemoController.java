@@ -46,15 +46,14 @@ public class DemoController {
         } else {
             throw new PersonNotFound(id);
         }
-
     }
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.DELETE)
     public void deletePerson(@PathVariable int id) {
-
         Optional<Person> optPerson = searchPersonBy(id);
         if (optPerson.isPresent() == true) {
-            persons.remove(id);
+            Person objPer = optPerson.get();
+            persons.remove(objPer);
         } else {
             throw new PersonNotFound(id);
         }
@@ -73,14 +72,19 @@ public class DemoController {
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.PUT)
     public void modifyPerson(@PathVariable int id,
-            @RequestHeader(value = "name") String name,
-            @RequestHeader(value = "age") int age) {
-
+            @RequestHeader(value = "name", required = false) String name,
+            @RequestHeader(value = "age", required = false) Integer age) {
         Optional<Person> optPerson = searchPersonBy(id);
         if (optPerson.isPresent() == true) {
-            Person person = new Person(id);
-            person.setAge(age);
-            person.setName(name);
+            Person objPer = optPerson.get();
+            if (name != null & age != null) {
+                objPer.setAge(age);
+                objPer.setName(name);
+            } else if (name != null & age == null) {
+                objPer.setName(name);
+            } else if (name == null & age != null) {
+                objPer.setAge(age);
+            }
         } else {
             throw new PersonNotFound(id);
         }
