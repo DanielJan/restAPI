@@ -6,10 +6,14 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,30 +40,24 @@ public class DemoController {
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.GET)
     public Person showPerson(@PathVariable int id) {
-        for (int i = 0; i < persons.size(); i++) {
-            Person person = persons.get(i);
-            if (person.getId() == id) {
-                return person;
-            }
+        Optional<Person> optPerson = searchPersonBy(id);
+        if (optPerson.isPresent() == true) {
+            return optPerson.get();
+        } else {
+            throw new PersonNotFound(id);
         }
-        throw new RuntimeException("nie ma takiej osoby");
+
     }
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.DELETE)
     public void deletePerson(@PathVariable int id) {
-        Person person = new Person(id);
-        persons.remove(person);
 
-        //        for (int index = 0; index < persons.size(); index++) {
-        //            Person person = persons.get(index);
-        //
-        //            //   if (person.getId() == id) {
-        //            //        persons.remove(index);
-        //            //    }
-        //            if (person.getId() == id) {
-        //                boolean removed = persons.remove(person);
-        //            }
-        //        }
+        Optional<Person> optPerson = searchPersonBy(id);
+        if (optPerson.isPresent() == true) {
+            persons.remove(id);
+        } else {
+            throw new PersonNotFound(id);
+        }
     }
 
     @RequestMapping(value = "/persons", method = RequestMethod.POST)
@@ -74,10 +72,26 @@ public class DemoController {
     }
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.PUT)
-    public void modifyPerson(@RequestBody Person person) {
-        
-        System.out.println(person);
+    public void modifyPerson(@PathVariable int id,
+            @RequestHeader(value = "name") String name,
+            @RequestHeader(value = "age") int age) {
 
+        Optional<Person> optPerson = searchPersonBy(id);
+        if (optPerson.isPresent() == true) {
+            Person person = new Person(id);
+            person.setAge(age);
+            person.setName(name);
+        } else {
+            throw new PersonNotFound(id);
+        }
+    }
 
+    public Optional<Person> searchPersonBy(int id) {
+        for (Person person : persons) {
+            if (person.getId() == id) {
+                return Optional.of(person);
+            }
+        }
+        return Optional.empty();
     }
 }
