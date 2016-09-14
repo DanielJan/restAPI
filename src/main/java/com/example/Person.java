@@ -16,6 +16,7 @@ public class Person {
     public Person() {
     }
 
+   
     public Person(String name, int age, int id) {
         this.name = name;
         this.age = age;
@@ -58,4 +59,31 @@ public class Person {
     public String toString() {
         return "Person{" + "name=" + name + ", age=" + age + ", id=" + id + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 13 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Person other = (Person) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
