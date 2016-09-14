@@ -5,6 +5,7 @@
  */
 package com.example;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author damian.wrobel
  */
+@RestController
 public class DemoController2 {
     
     private HashMap<Integer, Person> persons = new HashMap<Integer, Person>();
@@ -58,13 +61,13 @@ public class DemoController2 {
     
     @RequestMapping(value = "/osoby", method = RequestMethod.POST)
     public String addPerson(@RequestBody Person person) {
-        persons.add(person);
+        persons.put(person.getId(),person);
         return "Dodano osobę " + person.toString() + " do listy";
     }
     
     @RequestMapping(value = "/osoby", method = RequestMethod.GET)
-    public List<Person> showPersons() {
-        return persona;
+    public Collection<Person> showPersons() {
+        return persons.values();
         }
     
     @RequestMapping(value = "/osoby/{id}", method = RequestMethod.PUT)
@@ -88,14 +91,7 @@ public class DemoController2 {
     }
     
     public Optional<Person> searchPersonBy(int id) {
-        
-        
-            if (persons.get(id) == id) {
-                return Optional.of(persons.get(id));
-            }
-       
-        
-        return Optional.empty();
+           return Optional.ofNullable(persons.get(id));
     }
     
 }
