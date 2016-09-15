@@ -3,22 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package pl.wrobel.damian.controllers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
+import com.example.Person;
+import com.example.PersonNotFound;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.wrobel.damian.services.DemoService;
 
 /**
  *
@@ -26,19 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class DemoController {
-
-    private ArrayList<Person> persons = new ArrayList<Person>();
-
-    @PostConstruct
-    private void setup() {
-        Person olek = new Person("Olek", 40, 3);
-        Person adam = new Person("Adam", 14, 2);
-        Person karol = new Person("Karol", 30, 1);
-
-        persons.add(olek);
-        persons.add(adam);
-        persons.add(karol);
-    }
+    @Autowired
+    private DemoService demoService;
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.GET)
     public Person showPerson(@PathVariable int id) {
