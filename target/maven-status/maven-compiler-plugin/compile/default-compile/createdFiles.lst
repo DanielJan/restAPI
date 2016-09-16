@@ -1,2 +1,7 @@
+pl\wrobel\damian\controllers\DemoController.class
 com\example\DemoApplication.class
-com\example\DemoController.class
+com\example\AlreadyExists.class
+pl\wrobel\damian\controllers\DemoController2.class
+com\example\PersonNotFound.class
+com\example\Person.class
+pl\wrobel\damian\services\DemoService.class
