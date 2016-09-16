@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  *
  * @author damian.wrobel
  */
-@Repository
+@Repository(value = "personDAOHashMap")
 public class PersonDAOHashMap implements PersonDAO {
 
     private HashMap<Integer, Person> persons = new HashMap<Integer, Person>();

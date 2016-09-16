@@ -11,6 +11,7 @@ import com.example.database.dao.PersonDAO;
 import java.util.Collection;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,8 +21,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class DemoService {
 
-    @Autowired
     private PersonDAO personDAO;
+
+    @Autowired
+    public DemoService(@Qualifier(value = "personDAOPostgres") PersonDAO personDAO) {
+        this.personDAO = personDAO;
+    }
 
     public Person showPerson(int id) {
         Optional<Person> optPerson = personDAO.searchPersonBy(id);

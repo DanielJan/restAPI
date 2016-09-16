@@ -6,11 +6,14 @@
 package com.example;
 
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author damian.wrobel
  */
+@Entity
 public class Person {
 
     public Person() {
@@ -29,6 +32,7 @@ public class Person {
 
     private String name;
     private int age;
+    @Id
     private int id;
 
     public int getId() {
