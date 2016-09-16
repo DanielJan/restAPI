@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.services.DemoService;
+import java.util.Collection;
 
 /**
  *
@@ -49,12 +50,12 @@ public class DemoController {
     }
 
     @RequestMapping(value = "/persons", method = RequestMethod.POST)
-    public String addPerson(@RequestBody Person person) {
-       return demoService.addPerson(person);
+    public void addPerson(@RequestBody Person person) {
+        demoService.addPerson(person);
     }
 
     @RequestMapping(value = "/persons", method = RequestMethod.GET)
-    public List<Person> showPersons() {
+    public Collection<Person> showPersons() {
         return demoService.showPersons();
     }
 

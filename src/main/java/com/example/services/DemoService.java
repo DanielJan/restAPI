@@ -7,14 +7,11 @@ package com.example.services;
 
 import com.example.Person;
 import com.example.PersonNotFound;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.database.dao.PersonDAO;
+import java.util.Collection;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  *
@@ -23,30 +20,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @Service
 public class DemoService {
 
-    private ArrayList<Person> persons = new ArrayList<Person>();
-
-    @PostConstruct
-    private void setup() {
-        Person olek = new Person("Olek", 40, 3);
-        Person adam = new Person("Adam", 14, 2);
-        Person karol = new Person("Karol", 30, 1);
-
-        persons.add(olek);
-        persons.add(adam);
-        persons.add(karol);
-    }
-
-    private Optional<Person> searchPersonBy(int id) {
-        for (Person person : persons) {
-            if (person.getId() == id) {
-                return Optional.of(person);
-            }
-        }
-        return Optional.empty();
-    }
+    @Autowired
+    private PersonDAO personDAO;
 
     public Person showPerson(int id) {
-        Optional<Person> optPerson = searchPersonBy(id);
+        Optional<Person> optPerson = personDAO.searchPersonBy(id);
         if (optPerson.isPresent() == true) {
             return optPerson.get();
         } else {
@@ -55,25 +33,22 @@ public class DemoService {
     }
 
     public void deletePerson(int id) {
-        Optional<Person> optPerson = searchPersonBy(id);
+        Optional<Person> optPerson = personDAO.searchPersonBy(id);
         if (optPerson.isPresent() == true) {
-            Person objPer = optPerson.get();
-            persons.remove(objPer);
+            personDAO.deletePerson(id);
         } else {
             throw new PersonNotFound(id);
         }
     }
 
     public void modifyPerson(int id, String name, Integer age) {
-        Optional<Person> optPerson = searchPersonBy(id);
-        if (optPerson.isPresent() == true) {
+        Optional<Person> optPerson = personDAO.searchPersonBy(id);
+        if (optPerson.isPresent()) {
             Person objPer = optPerson.get();
-            if (name != null & age != null) {
-                objPer.setAge(age);
+            if (name != null) {
                 objPer.setName(name);
-            } else if (name != null & age == null) {
-                objPer.setName(name);
-            } else if (name == null & age != null) {
+            }
+            if (age != null) {
                 objPer.setAge(age);
             }
         } else {
@@ -81,13 +56,12 @@ public class DemoService {
         }
     }
 
-    public String addPerson(Person person) {
-        persons.add(person);
-        return "Dodano osobę " + person.toString() + " do listy";
+    public void addPerson(Person person) {
+        personDAO.addPerson(person);
     }
 
-    public List<Person> showPersons() {
-        return persons;
+    public Collection<Person> showPersons() {
+        return personDAO.showPersons();
     }
 
 }

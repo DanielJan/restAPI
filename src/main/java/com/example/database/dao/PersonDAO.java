@@ -6,6 +6,7 @@
 package com.example.database.dao;
 
 import com.example.Person;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +18,11 @@ public interface PersonDAO {
 
     Optional<Person> searchPersonBy(int id);
 
-    Person showPerson(int id);
-
     void deletePerson(int id);
 
     void modifyPerson(int id, String name, Integer age);
 
-    String addPerson(Person person);
+    void addPerson(Person person);
 
-    public List<Person> showPersons();
+    Collection<Person> showPersons();
 }
