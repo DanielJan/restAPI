@@ -6,6 +6,7 @@
 package com.example.database.dao;
 
 import com.example.Person;
+import com.example.PersonNotFound;
 import java.util.Collection;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -23,26 +24,29 @@ public class PersonDAOPostgres implements PersonDAO {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
-    public void setentityManagerFactory(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+    private EntityManager getEntityManager() {
+        return entityManagerFactory.createEntityManager();
     }
-
-    public EntityManagerFactory getentityManagerFactory() {
-        return entityManagerFactory;
-    }
-
-   // private EntityManager getEntityManager() {
-   //     return eMF.createEntityManager();
-   //}
 
     @Override
     public Optional<Person> searchPersonBy(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager entityManager = getEntityManager();
+        return Optional.ofNullable(entityManager.find(Person.class, id));
     }
 
     @Override
     public void deletePerson(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager entityManager = getEntityManager();
+        entityManager.getTransaction().begin();
+        if (entityManager.contains(entityManager.find(Person.class, id))) {
+       //    entityManager.remove(entityManager.find(Person.class, id));
+       entityManager.remove();
+            entityManager.getTransaction().commit();
+        } else {
+            throw new PersonNotFound(id);
+        }
+
+        entityManager.close();
     }
 
     @Override
@@ -52,17 +56,20 @@ public class PersonDAOPostgres implements PersonDAO {
 
     @Override
     public void addPerson(Person person) {
-   
-        
-        
-        
+        EntityManager entityManager = getEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(person);
+        entityManager.getTransaction().commit();
+        System.out.println("dodano " + person);
+        entityManager.close();
+
     }
 
     @Override
     public Collection<Person> showPersons() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        
-        return em.createQuery("from Person", Person.class).getResultList();
+        EntityManager entityManager = getEntityManager();
+
+        return entityManager.createQuery("from Person", Person.class).getResultList();
     }
 
 }

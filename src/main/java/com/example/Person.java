@@ -8,17 +8,21 @@ package com.example;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
  * @author damian.wrobel
  */
 @Entity
+@SequenceGenerator(name = "sekwencja", initialValue = 1, allocationSize = 1)
 public class Person implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sekwencja")
     private int id;
     @Column(nullable = true)
     private String name;

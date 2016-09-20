@@ -10,6 +10,7 @@ import com.example.PersonNotFound;
 import com.example.database.dao.PersonDAO;
 import java.util.Collection;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
