@@ -7,7 +7,6 @@ package com.example.database.dao;
 
 import com.example.Person;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 /**

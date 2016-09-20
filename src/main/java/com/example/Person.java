@@ -5,21 +5,29 @@
  */
 package com.example;
 
-import java.util.Objects;
+import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author damian.wrobel
  */
 @Entity
-public class Person {
+public class Person implements Serializable {
+
+    @Id
+    private int id;
+    @Column(nullable = true)
+    private String name;
+    @Column(nullable = true)
+    private int age;
 
     public Person() {
     }
 
-   
     public Person(String name, int age, int id) {
         this.name = name;
         this.age = age;
@@ -29,11 +37,6 @@ public class Person {
     Person(int id) {
         this.id = id;
     }
-
-    private String name;
-    private int age;
-    @Id
-    private int id;
 
     public int getId() {
         return id;
@@ -88,6 +91,5 @@ public class Person {
         }
         return true;
     }
-    
-    
+
 }

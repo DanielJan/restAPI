@@ -24,7 +24,7 @@ public class DemoService {
     private PersonDAO personDAO;
 
     @Autowired
-    public DemoService(@Qualifier(value = "personDAOPostgres") PersonDAO personDAO) {
+    public DemoService(@Qualifier(value = "PersonDAOPostgres") PersonDAO personDAO) {
         this.personDAO = personDAO;
     }
 
@@ -63,7 +63,7 @@ public class DemoService {
 
     public void addPerson(Person person) {
         personDAO.addPerson(person);
-    }
+           }
 
     public Collection<Person> showPersons() {
         return personDAO.showPersons();

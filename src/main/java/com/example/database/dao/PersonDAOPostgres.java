@@ -8,7 +8,6 @@ package com.example.database.dao;
 import com.example.Person;
 import java.util.Collection;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +17,27 @@ import org.springframework.stereotype.Repository;
  *
  * @author damian.wrobel
  */
-@Repository(value = "personDAOPostgres")
+@Repository(value = "PersonDAOPostgres")
 public class PersonDAOPostgres implements PersonDAO {
-    
-      
+
     @Autowired
-    private EntityManagerFactory emf;
+    private EntityManagerFactory entityManagerFactory;
+
+    public void setentityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
+    public EntityManagerFactory getentityManagerFactory() {
+        return entityManagerFactory;
+    }
+
+   // private EntityManager getEntityManager() {
+   //     return eMF.createEntityManager();
+   //}
 
     @Override
     public Optional<Person> searchPersonBy(int id) {
-        EntityManager em = getEntityManager();
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -43,16 +52,17 @@ public class PersonDAOPostgres implements PersonDAO {
 
     @Override
     public void addPerson(Person person) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   
+        
+        
+        
     }
 
     @Override
     public Collection<Person> showPersons() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = entityManagerFactory.createEntityManager();
+        
+        return em.createQuery("from Person", Person.class).getResultList();
     }
-    
-    private EntityManager getEntityManager () {
-        return emf.createEntityManager();
-    }
-    
+
 }

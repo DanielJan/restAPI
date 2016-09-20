@@ -6,9 +6,6 @@
 package com.example.controllers;
 
 import com.example.Person;
-import com.example.PersonNotFound;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,22 +23,20 @@ import java.util.Collection;
 @RestController
 public class DemoController {
 
+
     @Autowired
     private DemoService demoService;
 
-    // zrobione
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.GET)
     public Person showPerson(@PathVariable int id) {
         return demoService.showPerson(id);
     }
 
-    //zrobione
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.DELETE)
     public void deletePerson(@PathVariable int id) {
         demoService.deletePerson(id);
     }
 
-    //coś nie działa
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.PUT)
     public void modifyPerson(@PathVariable int id,
             @RequestHeader(value = "name", required = false) String name,

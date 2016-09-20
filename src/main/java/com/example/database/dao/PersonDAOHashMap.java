@@ -10,7 +10,6 @@ import com.example.Person;
 import com.example.PersonNotFound;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
@@ -22,11 +21,14 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "personDAOHashMap")
 public class PersonDAOHashMap implements PersonDAO {
 
+
+
     private HashMap<Integer, Person> persons = new HashMap<Integer, Person>();
 
     @PostConstruct
     private void setup() {
-        Person olek = new Person("Olek", 40, 3);
+
+       Person olek = new Person("Olek", 40, 3);
         Person adam = new Person("Adam", 14, 2);
         Person karol = new Person("Karol", 30, 1);
 
@@ -53,7 +55,7 @@ public class PersonDAOHashMap implements PersonDAO {
     @Override
     public void modifyPerson(int id, String name, Integer age) {
         Optional<Person> optPerson = searchPersonBy(id);
-        if (optPerson.isPresent() == true) {
+        if (optPerson.isPresent()) {
             Person objPer = optPerson.get();
             if (name != null & age != null) {
                 objPer.setAge(age);
